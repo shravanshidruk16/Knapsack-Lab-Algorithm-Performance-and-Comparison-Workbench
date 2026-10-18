@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knapsack Lab — Algorithm Performance & Comparison Workbench</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <!-- MathJax for high-fidelity LaTeX typesetting with automatic offline HTML/CSS fallback -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="app-sidebar">
+            <div class="brand-section">
+                <div class="brand-title">
+                    <svg class="nav-icon" viewBox="0 0 24 24" style="width: 24px; height: 24px; fill: var(--accent-pink);">
+                        <path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm7 17H5V8h14v12zm-7-8c-1.66 0-3-1.34-3-3H7c0 2.76 2.24 5 5 5s5-2.24 5-5h-2c0 1.66-1.34 3-3 3z"/>
+                    </svg>
+                    Knapsack Lab
+                </div>
+                <span class="brand-badge">C++17 Engine</span>
+                <div class="brand-sub">Algorithm Analysis Workbench</div>
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#overview" class="nav-link active" data-view="view-overview">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                        Overview
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#solver" class="nav-link" data-view="view-solver">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+                        Solve Knapsack
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#compare" class="nav-link" data-view="view-compare">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
+                        Compare Algorithms
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#benchmark" class="nav-link" data-view="view-benchmark">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+                        Benchmark Lab
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#theory" class="nav-link" data-view="view-theory">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+                        Algorithm Theory
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link" data-view="view-about">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        About Project
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div><strong>DAA Mini-Project</strong></div>
+                <div style="margin-top: 3px;">Dynamic Programming vs. Branch &amp; Bound</div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="app-main">
+            <!-- Header -->
+            <header class="app-header">
+                <div class="header-left">
+                    <h1 class="page-title" id="header-page-title">Overview &amp; Workbench Introduction</h1>
+                    <span class="page-desc" id="header-page-desc">Comparative study of 0/1 Knapsack: Dynamic Programming vs. Branch and Bound</span>
+                </div>
+                <div class="header-right">
+                    <div class="engine-status-pill">
+                        <span class="status-indicator-dot" id="engine-status-dot"></span>
+                        <span id="engine-status-text">Checking Engine...</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Workspace Content -->
+            <div class="workspace-content">
+                <!-- VIEW 1: OVERVIEW -->
+                <section id="view-overview" class="view-section active">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title">Project Mission &amp; Problem Statement</h2>
+                                <div class="card-subtitle">Course Syllabus Project: 0/1 Knapsack Exact Optimization</div>
+                            </div>
+                            <span class="badge badge-purple">DAA Mini-Project</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="theory-p">
+                                The <strong>0/1 Knapsack Problem</strong> is a classic NP-hard combinatorial optimization challenge. Given <span class="math-var">n</span> items with discrete positive integer weights <span class="math-var">w<sub>i</sub></span> and values <span class="math-var">v<sub>i</sub></span>, and a knapsack with maximum weight capacity <span class="math-var">W</span>, the goal is to select an optimal subset of items that maximizes cumulative value without exceeding capacity.
+                            </p>
+
+                            <!-- Academic Mathematical Formulation Block -->
+                            <div class="math-display">
+                                <div class="math-formula-title">Formal Mathematical Model</div>
+                                <div class="math-row">
+                                    <strong>Maximize:</strong>
+                                    &nbsp;<span class="math-var">Z</span>&nbsp;=&nbsp;
+                                    <span class="math-sigma">&sum;<span class="math-sigma-sup">n</span><span class="math-sigma-sub">i=1</span></span>
+                                    <span class="math-var">v<sub>i</sub></span> <span class="math-var">x<sub>i</sub></span>
+                                </div>
+                                <div class="math-row" style="margin-top: 8px;">
+                                    <strong>Subject To:</strong>
+                                    &nbsp;
+                                    <span class="math-sigma">&sum;<span class="math-sigma-sup">n</span><span class="math-sigma-sub">i=1</span></span>
+                                    <span class="math-var">w<sub>i</sub></span> <span class="math-var">x<sub>i</sub></span>
+                                    &nbsp;<span class="math-op">&le;</span>&nbsp;<span class="math-var">W</span>,
+                                    &nbsp;&nbsp;where&nbsp; <span class="math-var">x<sub>i</sub></span> <span class="math-op">&isin;</span> {0, 1}
+                                </div>
+                            </div>
+
+                            <p class="theory-p">
+                                Knapsack Lab implements both paradigms in <strong>C++17</strong> and evaluates them on identical inputs:
+                            </p>
+                            <div class="grid-2" style="margin-top: 16px;">
+                                <div class="stat-box" style="border-left: 4px solid var(--primary-purple);">
+                                    <div class="stat-box-label" style="color: var(--primary-purple);">Paradigm 1: Dynamic Programming</div>
+                                    <p style="font-size: 14.5px; margin-top: 6px; color: var(--primary-text); line-height: 1.5;">
+                                        Constructs a 2D recurrence table <span class="math-var">DP[i][w]</span> recording subproblem optima. Operates in <strong>pseudo-polynomial time</strong> <span class="complexity-pill">O(n &times; W)</span> and <span class="complexity-pill">O(n &times; W)</span> memory. Uses backtracking through the table to reconstruct exact selected item indices.
+                                    </p>
+                                </div>
+                                <div class="stat-box" style="border-left: 4px solid var(--accent-pink);">
+                                    <div class="stat-box-label" style="color: var(--accent-pink);">Paradigm 2: Branch and Bound</div>
+                                    <p style="font-size: 14.5px; margin-top: 6px; color: var(--primary-text); line-height: 1.5;">
+                                        Explores a state-space binary decision tree via <strong>Best-First Search</strong> with a priority queue (max-heap). Uses <strong>continuous fractional relaxation</strong> as an admissible upper-bound heuristic to prune unpromising subtrees that cannot surpass the best known feasible solution.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">1. Custom Knapsack Solver</h3>
+                            </div>
+                            <div class="card-body">
+                                <p style="font-size: 14px; color: var(--secondary-text); margin-bottom: 16px; line-height: 1.5;">
+                                    Configure custom item weights and values or select instant sample presets. Execute both C++17 implementations side-by-side and verify 100% agreement on optimal values.
+                                </p>
+                                <a href="#solver" class="btn btn-primary btn-block" onclick="document.querySelector('[data-view=view-solver]').click(); return false;">Open Solver</a>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">2. Benchmark Laboratory</h3>
+                            </div>
+                            <div class="card-body">
+                                <p style="font-size: 14px; color: var(--secondary-text); margin-bottom: 16px; line-height: 1.5;">
+                                    Conduct empirical parameter sweeps across problem sizes using reproducible seeds. Inspect interactive HTML5 Canvas charts of runtimes, memory, and pruned nodes.
+                                </p>
+                                <a href="#benchmark" class="btn btn-accent btn-block" onclick="document.querySelector('[data-view=view-benchmark]').click(); return false;">Open Benchmark Lab</a>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">3. Algorithmic Theory</h3>
+                            </div>
+                            <div class="card-body">
+                                <p style="font-size: 14px; color: var(--secondary-text); margin-bottom: 16px; line-height: 1.5;">
+                                    Study the mathematical recurrences, fractional relaxation proofs, worst-case exponential state spaces, and empirical crossover points where Branch &amp; Bound beats DP.
+                                </p>
+                                <a href="#theory" class="btn btn-secondary btn-block" onclick="document.querySelector('[data-view=view-theory]').click(); return false;">View Theory</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 2: SOLVER -->
+                <section id="view-solver" class="view-section">
+                    <div id="solver-alert-box" class="alert alert-danger" style="display: none;"></div>
+
+                    <div class="grid-solver">
+                        <!-- Left Panel: Problem Configuration -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Problem Configuration</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="form-label">Quick Sample Presets</label>
+                                    <div class="preset-pills">
+                                        <button type="button" class="preset-pill-btn active" data-preset-id="clrs_classic">Classic 4-Item (W=50)</button>
+                                        <button type="button" class="preset-pill-btn" data-preset-id="bb_dominates">B&amp;B Dominates (W=80,000)</button>
+                                        <button type="button" class="preset-pill-btn" data-preset-id="dp_dominates">DP Dominates (W=60)</button>
+                                        <button type="button" class="preset-pill-btn" data-preset-id="heavy_exclusion">Heavy Trap (W=40)</button>
+                                    </div>
+                                    <div class="form-help" style="margin-top: 6px;">Click any pill to instantly load that instance.</div>
+                                </div>
+
+                                <div class="form-group" style="margin-top: 14px;">
+                                    <label class="form-label" for="select-preset">Or Choose From Dropdown</label>
+                                    <select id="select-preset" class="form-control">
+                                        <option value="clrs_classic">Classic Textbook Instance (4 items) (Cap: 50, 4 items)</option>
+                                        <option value="bb_dominates">High Capacity &amp; Distinct Ratios (B&amp;B Dominates) (Cap: 80,000, 8 items)</option>
+                                        <option value="dp_dominates">Dense Small Capacity (DP Dominates) (Cap: 60, 10 items)</option>
+                                        <option value="heavy_exclusion">Heavy High-Value Trap (Cap: 40, 4 items)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="solver-capacity">Knapsack Capacity (W)</label>
+                                    <input type="number" id="solver-capacity" class="form-control" value="50" min="1" max="2000000">
+                                    <div class="form-help">Must be a positive integer (&le; 2,000,000).</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="solver-trials">Timing Trials (Median Repetition)</label>
+                                    <input type="number" id="solver-trials" class="form-control" value="3" min="1" max="10">
+                                    <div class="form-help">Repeats isolated runs to record a stable median monotonic timer result.</div>
+                                </div>
+
+                                <button id="btn-run-solver" class="btn btn-primary btn-block" style="margin-top: 18px; padding: 12px; font-size: 15.5px;">
+                                    <svg class="nav-icon" viewBox="0 0 20 20" style="fill: #FFFFFF;"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"/></svg>
+                                    Run Algorithms (C++17 Engine)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Items Table -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <h2 class="card-title">Items Inventory</h2>
+                                    <div class="card-subtitle">Define positive weights and values for candidate items</div>
+                                </div>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <span class="badge badge-purple" id="items-count-badge">4 items</span>
+                                    <button id="btn-add-item" class="btn btn-secondary btn-sm">+ Add Item</button>
+                                    <button id="btn-clear-items" class="btn btn-outline btn-sm">Clear</button>
+                                </div>
+                            </div>
+                            <div class="card-body" style="padding: 0;">
+                                <div class="table-responsive">
+                                    <table class="table-custom">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 44px;">#</th>
+                                                <th>Item Name</th>
+                                                <th class="num" style="width: 110px;">Weight (w)</th>
+                                                <th class="num" style="width: 110px;">Value (v)</th>
+                                                <th class="num" style="width: 90px;">Ratio (v/w)</th>
+                                                <th style="width: 50px; text-align: center;">Act</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="items-table-body">
+                                            <!-- Populated dynamically -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results Section -->
+                    <div id="solver-results-container" style="display: none; margin-top: 24px;">
+                        <!-- Agreement Status Banner -->
+                        <div id="results-agreement-banner" class="comparison-banner success">
+                            <!-- Populated dynamically -->
+                        </div>
+
+                        <!-- Dual Cards Grid -->
+                        <div class="grid-2">
+                            <!-- DP Card -->
+                            <div class="card algo-card">
+                                <div class="card-header">
+                                    <div>
+                                        <h3 class="card-title" style="color: var(--primary-purple);">
+                                            Dynamic Programming
+                                        </h3>
+                                        <div class="card-subtitle">2D Recurrence Table O(n &times; W)</div>
+                                    </div>
+                                    <span class="badge badge-purple">Exact DP</span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="stat-grid">
+                                        <div class="stat-box">
+                                            <div class="stat-box-label">Optimal Value</div>
+                                            <div class="stat-box-val" id="dp-opt-val">0</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-box-label">Total Weight</div>
+                                            <div class="stat-box-val" id="dp-tot-weight">0 / 0</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-box-label">Execution Time</div>
+                                            <div class="stat-box-val" id="dp-exec-time" style="font-size: 15px;">0.00 ms</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-box-label">Table Cells</div>
+                                            <div class="stat-box-val" id="dp-table-cells" style="font-size: 14px;">0</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-box-label">DP Workspace</div>
+                                            <div class="stat-box-val" id="dp-workspace-mem" style="font-size: 15px;">0 KB</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-box-label">Peak Working Set</div>
+                                            <div class="stat-box-val" id="dp-peak-mem" style="font-size: 15px;">0 KB</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-label" style="font-size: 13px; margin-top: 10px;">Selected Items (Backtracked Indices):</div>
+                                    <div id="dp-selected-items" class="items-tag-list"></div>
+                                </div>
+                            </div>
+
+                            <!-- B&B Card -->
+                            <div class="card algo-card bb">
+                                <div class="card-header">
+                                    <div>
+                                        <h3 class="card-title" style="color: var(--accent-pink);">
+                                            Branch and Bound
+                                        </h3>
+                                        <div class="card-subtitle">State-Space Best-First Tree Search</div>
+                                    </div>
+                                    <span class="badge badge-pink">Exact B&amp;B</span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="stat-grid">
+                                        <div class="stat-box">
+                                            <div class="stat-box-label">Optimal Value</div>
+                                            <div class="stat-box-val" id="bb-opt-val">0</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-box-label">Total Weight</div>
+                                            <div class="stat-box-val" id="bb-tot-weight">0 / 0</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-box-label">Execution Time</div>
+                                            <div class="stat-box-val" id="bb-exec-time" style="font-size: 15px;">0.00 ms</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-box-label">Nodes Expanded</div>
+                                            <div class="stat-box-val" id="bb-nodes-expanded" style="font-size: 15px;">0</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-box-label">Nodes Pruned</div>
+                                            <div class="stat-box-val" id="bb-nodes-pruned" style="font-size: 15px;">0</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-box-label">Max Frontier Queue</div>
+                                            <div class="stat-box-val" id="bb-max-frontier" style="font-size: 15px;">0</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-label" style="font-size: 13px; margin-top: 10px;">Selected Items (Original Input Order):</div>
+                                    <div id="bb-selected-items" class="items-tag-list"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Comparison Analytics Card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Empirical Comparison &amp; Diagnostics</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="grid-4" style="margin-bottom: 14px;">
+                                    <div class="stat-box">
+                                        <div class="stat-box-label">Faster Algorithm</div>
+                                        <div class="stat-box-val" id="comp-faster-algo" style="font-size: 16px;">-</div>
+                                    </div>
+                                    <div class="stat-box">
+                                        <div class="stat-box-label">Runtime Delta</div>
+                                        <div class="stat-box-val" id="comp-time-diff" style="font-size: 16px;">-</div>
+                                    </div>
+                                    <div class="stat-box">
+                                        <div class="stat-box-label">Speedup Factor</div>
+                                        <div class="stat-box-val" id="comp-speedup-ratio" style="font-size: 16px;">-</div>
+                                    </div>
+                                    <div class="stat-box">
+                                        <div class="stat-box-label">Measurement Mode</div>
+                                        <div class="stat-box-val" style="font-size: 14px;">Separate Process</div>
+                                    </div>
+                                </div>
+                                <div id="comp-speedup-summary" style="font-size: 15px; font-weight: bold; margin-bottom: 8px; color: var(--deep-aubergine);"></div>
+                                <div id="comp-rationale" style="font-size: 14px; color: var(--secondary-text); background-color: #FAF7FC; padding: 14px; border-radius: 3px; border-left: 4px solid var(--primary-purple); line-height: 1.6;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 3: COMPARE ALGORITHMS -->
+                <section id="view-compare" class="view-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Detailed Algorithmic Comparison Matrix</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="theory-p">
+                                The comparative performance between Dynamic Programming and Branch and Bound is governed by knapsack capacity magnitude, problem size <span class="math-var">n</span>, and item value-to-weight correlation.
+                            </p>
+                            <table class="table-custom" style="margin-top: 16px;">
+                                <thead>
+                                    <tr>
+                                        <th>Evaluation Dimension</th>
+                                        <th style="color: var(--primary-purple);">Dynamic Programming</th>
+                                        <th style="color: var(--accent-pink);">Branch and Bound</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Theoretical Time Complexity</strong></td>
+                                        <td><span class="complexity-pill">O(n &times; W)</span> (Pseudo-polynomial in numeric capacity W)</td>
+                                        <td><span class="complexity-pill">O(2<sup>n</sup>)</span> worst-case; <span class="complexity-pill">O(n log n)</span> with tight bounds</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Space / Memory Complexity</strong></td>
+                                        <td><span class="complexity-pill">O(n &times; W)</span> flat 2D contiguous table for item reconstruction</td>
+                                        <td><span class="complexity-pill">O(Max Frontier)</span> bounded by maximum live tree nodes</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Best-Suited Scenarios</strong></td>
+                                        <td>Dense instances with small or moderate knapsack capacity <span class="math-var">W</span></td>
+                                        <td>Sparse instances with large capacity <span class="math-var">W</span> and distinct item ratios</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Sensitivity to Input Size (N)</strong></td>
+                                        <td>Linear growth with <span class="math-var">n</span> for fixed capacity <span class="math-var">W</span></td>
+                                        <td>Potentially exponential tree depth if pruning bounds are loose</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Sensitivity to Capacity (W)</strong></td>
+                                        <td>Severe linear penalty; memory exhaustion if <span class="math-var">W</span> is huge</td>
+                                        <td>Negligible penalty; bound calculation easily absorbs large capacities</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Guaranteed Optimality</strong></td>
+                                        <td>Yes (Exhaustive optimal substructure)</td>
+                                        <td>Yes (Exhaustive best-first branch search with admissible bound)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 4: BENCHMARK LAB -->
+                <section id="view-benchmark" class="view-section">
+                    <div id="benchmark-alert-box" class="alert alert-danger" style="display: none;"></div>
+
+                    <div class="grid-2">
+                        <!-- Benchmark Sweep Form -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Empirical Benchmark Sweep</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label" for="bench-min-items">Min Items</label>
+                                        <input type="number" id="bench-min-items" class="form-control" value="5" min="4" max="35">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="bench-max-items">Max Items</label>
+                                        <input type="number" id="bench-max-items" class="form-control" value="25" min="5" max="35">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="bench-step-items">Step</label>
+                                        <input type="number" id="bench-step-items" class="form-control" value="5" min="1" max="10">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label" for="bench-capacity">Knapsack Capacity</label>
+                                        <input type="number" id="bench-capacity" class="form-control" value="150" min="10" max="500000">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="bench-trials">Trials per Size</label>
+                                        <input type="number" id="bench-trials" class="form-control" value="3" min="1" max="10">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="bench-seed">Random Seed</label>
+                                        <input type="number" id="bench-seed" class="form-control" value="42">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Weight Range</label>
+                                        <div style="display: flex; gap: 6px;">
+                                            <input type="number" id="bench-min-w" class="form-control" value="10" placeholder="Min">
+                                            <input type="number" id="bench-max-w" class="form-control" value="50" placeholder="Max">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Value Range</label>
+                                        <div style="display: flex; gap: 6px;">
+                                            <input type="number" id="bench-min-v" class="form-control" value="20" placeholder="Min">
+                                            <input type="number" id="bench-max-v" class="form-control" value="200" placeholder="Max">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button id="btn-run-benchmark" class="btn btn-accent btn-block" style="margin-top: 12px; padding: 12px; font-size: 15px;">
+                                    Execute Benchmark Sweep
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Reproducible Dataset Generator -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Reproducible Dataset Generator</h2>
+                            </div>
+                            <div class="card-body">
+                                <div id="generator-alert-box" class="alert alert-danger" style="display: none;"></div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label" for="gen-count">Item Count</label>
+                                        <input type="number" id="gen-count" class="form-control" value="12" min="1" max="500">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="gen-capacity">Capacity</label>
+                                        <input type="number" id="gen-capacity" class="form-control" value="120" min="1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="gen-seed">Seed</label>
+                                        <input type="number" id="gen-seed" class="form-control" value="101">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Weight Range</label>
+                                        <div style="display: flex; gap: 6px;">
+                                            <input type="number" id="gen-min-w" class="form-control" value="10" placeholder="Min">
+                                            <input type="number" id="gen-max-w" class="form-control" value="40" placeholder="Max">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Value Range</label>
+                                        <div style="display: flex; gap: 6px;">
+                                            <input type="number" id="gen-min-v" class="form-control" value="25" placeholder="Min">
+                                            <input type="number" id="gen-max-v" class="form-control" value="150" placeholder="Max">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 10px; margin-top: 12px;">
+                                    <button id="btn-generate-dataset" class="btn btn-secondary" style="flex: 1;">Generate Dataset</button>
+                                    <button id="btn-copy-generated" class="btn btn-primary" style="flex: 1;">Copy to Knapsack Solver</button>
+                                </div>
+
+                                <div id="generator-preview-card" style="display: none; margin-top: 14px;">
+                                    <div id="generator-preview-meta" style="font-size: 13px; font-weight: bold; color: var(--secondary-text); margin-bottom: 6px;"></div>
+                                    <div style="max-height: 140px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 3px;">
+                                        <table class="table-custom" style="font-size: 13px;">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Name</th>
+                                                    <th class="num">Weight</th>
+                                                    <th class="num">Value</th>
+                                                    <th class="num">Ratio</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="generator-preview-body"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Benchmark Results & Visualizations -->
+                    <div id="benchmark-results-container" style="display: none; margin-top: 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <h2 style="font-size: 19px; font-weight: 700; color: var(--deep-aubergine);">Empirical Visualizations &amp; Table</h2>
+                            <div style="display: flex; gap: 10px;">
+                                <button id="btn-export-csv" class="btn btn-outline btn-sm">Export CSV</button>
+                                <button id="btn-export-json" class="btn btn-outline btn-sm">Export JSON</button>
+                            </div>
+                        </div>
+
+                        <!-- Canvas Charts Grid -->
+                        <div class="grid-2">
+                            <!-- Runtime Chart -->
+                            <div class="chart-card">
+                                <div class="chart-header">
+                                    <strong style="color: var(--deep-aubergine);">1. Execution Time Comparison</strong>
+                                    <label style="font-size: 12.5px; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                        <input type="checkbox" id="toggle-log-scale">
+                                        Log10 Scale
+                                    </label>
+                                </div>
+                                <canvas id="canvas-runtime" class="chart-canvas"></canvas>
+                                <div class="chart-legend">
+                                    <div class="legend-item"><span class="legend-dot" style="background-color: var(--primary-purple);"></span> Dynamic Programming (ms)</div>
+                                    <div class="legend-item"><span class="legend-dot" style="background-color: var(--accent-pink);"></span> Branch and Bound (ms)</div>
+                                </div>
+                            </div>
+
+                            <!-- Memory Chart -->
+                            <div class="chart-card">
+                                <div class="chart-header">
+                                    <strong style="color: var(--deep-aubergine);">2. Memory Consumption Comparison</strong>
+                                    <select id="select-mem-metric" class="form-control form-control-sm" style="width: auto; padding: 3px 8px;">
+                                        <option value="workspace">Algorithm Workspace (KB)</option>
+                                        <option value="peak">Peak Process Working Set (KB)</option>
+                                    </select>
+                                </div>
+                                <canvas id="canvas-memory" class="chart-canvas"></canvas>
+                                <div class="chart-legend">
+                                    <div class="legend-item"><span class="legend-dot" style="background-color: var(--primary-purple);"></span> Dynamic Programming (KB)</div>
+                                    <div class="legend-item"><span class="legend-dot" style="background-color: var(--accent-pink);"></span> Branch and Bound (KB)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Search Space Chart for Branch and Bound -->
+                        <div class="chart-card" style="margin-top: 20px;">
+                            <div class="chart-header">
+                                <strong style="color: var(--deep-aubergine);">3. Branch and Bound State-Space Pruning &amp; Frontier Metrics</strong>
+                            </div>
+                            <canvas id="canvas-search-space" class="chart-canvas" style="height: 240px;"></canvas>
+                            <div class="chart-legend">
+                                <div class="legend-item"><span class="legend-dot" style="background-color: #51358E;"></span> Nodes Expanded</div>
+                                <div class="legend-item"><span class="legend-dot" style="background-color: #E76AA8;"></span> Nodes Pruned</div>
+                                <div class="legend-item"><span class="legend-dot" style="background-color: #2F855A;"></span> Max Frontier Queue Size</div>
+                            </div>
+                        </div>
+
+                        <!-- Results Table -->
+                        <div class="card" style="margin-top: 24px;">
+                            <div class="card-header">
+                                <h3 class="card-title">Empirical Benchmark Data Records</h3>
+                            </div>
+                            <div class="card-body" style="padding: 0;">
+                                <div class="table-responsive">
+                                    <table class="table-custom">
+                                        <thead>
+                                            <tr>
+                                                <th>Problem Size</th>
+                                                <th class="num">DP Time</th>
+                                                <th class="num">B&amp;B Time</th>
+                                                <th style="text-align: center;">Relative Performance</th>
+                                                <th class="num">DP Workspace</th>
+                                                <th class="num">B&amp;B Workspace</th>
+                                                <th class="num">B&amp;B Expanded</th>
+                                                <th class="num">B&amp;B Pruned</th>
+                                                <th style="text-align: center;">Agreement</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="benchmark-table-body">
+                                            <!-- Populated dynamically -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 5: ALGORITHM THEORY -->
+                <section id="view-theory" class="view-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Comprehensive Algorithmic Foundations</h2>
+                        </div>
+                        <div class="card-body">
+                            <!-- Section 1: DP -->
+                            <div class="theory-block">
+                                <h3 class="theory-title" style="color: var(--primary-purple);">1. Dynamic Programming for 0/1 Knapsack</h3>
+                                <p class="theory-p">
+                                    The 0/1 Knapsack problem exhibits <strong>optimal substructure</strong>: an optimal solution to the subproblem of size <span class="math-var">i</span> items and capacity <span class="math-var">w</span> directly incorporates optimal solutions to smaller subproblems.
+                                </p>
+
+                                <div class="math-display">
+                                    <div class="math-formula-title">Recurrence Formulation &amp; Base Case</div>
+                                    <div class="math-row">
+                                        <span class="math-var">DP[0, w]</span> &nbsp;=&nbsp; 0 &nbsp;&nbsp;&nbsp;&forall;&nbsp; <span class="math-var">w</span> &isin; [0, <span class="math-var">W</span>]
+                                    </div>
+                                    <div class="math-row" style="margin-top: 10px;">
+                                        <span class="math-var">DP[i, w]</span> &nbsp;=&nbsp;
+                                        <div class="math-cases">
+                                            <span class="cases-bracket">{</span>
+                                            <div class="cases-rows">
+                                                <div><span class="math-var">DP[i-1, w]</span> &nbsp;&nbsp;&nbsp;&nbsp; <strong>if</strong> &nbsp; <span class="math-var">w<sub>i</sub></span> &gt; <span class="math-var">w</span></div>
+                                                <div><strong>max</strong><span class="math-op">(</span><span class="math-var">DP[i-1, w]</span>, &nbsp; <span class="math-var">DP[i-1, w - w<sub>i</sub>]</span> + <span class="math-var">v<sub>i</sub></span><span class="math-op">)</span> &nbsp;&nbsp;&nbsp;&nbsp; <strong>if</strong> &nbsp; <span class="math-var">w<sub>i</sub></span> &le; <span class="math-var">w</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class="theory-p">
+                                    <strong>Solution Reconstruction (Backtracking):</strong> Beginning at state <span class="math-var">(n, W)</span>, if <span class="math-var">DP[i, w] &ne; DP[i-1, w]</span>, item <span class="math-var">i</span> was chosen; we append index <span class="math-var">i</span> to the solution set, decrement capacity <span class="math-var">w &larr; w - w<sub>i</sub></span>, and proceed with <span class="math-var">i &larr; i - 1</span>.
+                                </p>
+                                <p class="theory-p">
+                                    <strong>Pseudo-Polynomial Complexity:</strong> Time and space are <span class="complexity-pill">O(n &times; W)</span>. While polynomial in the integer value <span class="math-var">W</span>, it is <em>exponential</em> in the input length (bit count <span class="math-var">L = &lceil;log<sub>2</sub>(W + 1)&rceil;</span>) of the capacity parameter: <span class="complexity-pill">O(n &times; 2<sup>L</sup>)</span>.
+                                </p>
+                            </div>
+
+                            <!-- Section 2: Branch and Bound -->
+                            <div class="theory-block">
+                                <h3 class="theory-title" style="color: var(--accent-pink);">2. Branch and Bound State-Space Search</h3>
+                                <p class="theory-p">
+                                    Branch and Bound constructs an implicit binary decision tree where level <span class="math-var">i</span> represents the decision to include (<span class="math-var">x<sub>i</sub> = 1</span>) or exclude (<span class="math-var">x<sub>i</sub> = 0</span>) item <span class="math-var">i</span>.
+                                </p>
+
+                                <div class="math-display accent-pink">
+                                    <div class="math-formula-title">Fractional Relaxation Upper Bound Heuristic</div>
+                                    <div class="math-row">
+                                        <strong>1. Sorting by Efficiency Ratio:</strong>&nbsp;
+                                        <div class="math-frac"><span class="math-frac-num"><span class="math-var">v</span><sub>1</sub></span><span class="math-frac-den"><span class="math-var">w</span><sub>1</sub></span></div>
+                                        &nbsp;&ge;&nbsp;
+                                        <div class="math-frac"><span class="math-frac-num"><span class="math-var">v</span><sub>2</sub></span><span class="math-frac-den"><span class="math-var">w</span><sub>2</sub></span></div>
+                                        &nbsp;&ge;&nbsp;&hellip;&ge;&nbsp;
+                                        <div class="math-frac"><span class="math-frac-num"><span class="math-var">v</span><sub>n</sub></span><span class="math-frac-den"><span class="math-var">w</span><sub>n</sub></span></div>
+                                    </div>
+                                    <div class="math-row" style="margin-top: 12px;">
+                                        <strong>2. Upper Bound at Node Level <span class="math-var">k</span>:</strong><br>
+                                        <span class="math-var">Bound</span> &nbsp;=&nbsp; <span class="math-var">V<sub>curr</sub></span>
+                                        &nbsp;+&nbsp;
+                                        <span class="math-sigma">&sum;<span class="math-sigma-sup">m-1</span><span class="math-sigma-sub">j=k</span></span>
+                                        <span class="math-var">v<sub>j</sub></span>
+                                        &nbsp;+&nbsp;
+                                        <span class="math-op">(</span><span class="math-var">W</span> &minus; <span class="math-var">W<sub>tot</sub></span><span class="math-op">)</span>
+                                        &times;
+                                        <div class="math-frac"><span class="math-frac-num"><span class="math-var">v<sub>m</sub></span></span><span class="math-frac-den"><span class="math-var">w<sub>m</sub></span></span></div>
+                                    </div>
+                                </div>
+
+                                <p class="theory-p">
+                                    <strong>Pruning Rule:</strong> If <span class="math-var">Bound(u) &le; V<sup>*</sup><sub>best</sub></span>, the entire subtree rooted at node <span class="math-var">u</span> is immediately pruned without generation. Using a <strong>Best-First Search</strong> priority queue (max-heap on upper bound), the search continually explores the most optimistic region of the tree first.
+                                </p>
+                            </div>
+
+                            <!-- Section 3: Empirical Comparison -->
+                            <div class="theory-block">
+                                <h3 class="theory-title">3. When Does Branch and Bound Outperform Dynamic Programming?</h3>
+                                <p class="theory-p">
+                                    Branch and Bound significantly outperforms Dynamic Programming in instances where:
+                                </p>
+                                <ul style="margin-left: 24px; margin-bottom: 12px; line-height: 1.7; font-size: 15.5px;">
+                                    <li><strong>Large Capacity (<span class="math-var">W &ge; 10,000</span>):</strong> DP requires <span class="math-var">(n+1)(W+1)</span> table allocations and nested loop iterations, whereas B&amp;B's fractional relaxation bound prunes the decision tree after examining only a handful of nodes (often executing in under <span class="complexity-pill">0.05 ms</span>).</li>
+                                    <li><strong>High Ratio Variance:</strong> When item value-to-weight ratios differ substantially, the fractional upper bound is sharp, enabling early and aggressive tree pruning.</li>
+                                    <li><strong>Conversely:</strong> When <span class="math-var">W</span> is small and item ratios are nearly identical, DP wins decisively due to constant-time table lookups, CPU cache locality, and lack of priority queue heap operations.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 6: ABOUT -->
+                <section id="view-about" class="view-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Project Specifications &amp; Technology Architecture</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="theory-p">
+                                <strong>Course:</strong> Design and Analysis of Algorithms (DAA) Mini-Project<br>
+                                <strong>System:</strong> Knapsack Lab — Algorithm Performance &amp; Comparison Workbench<br>
+                                <strong>Core Engine:</strong> C++17 (compiled via MinGW-w64 GCC with <code>-O3 -std=c++17 -lpsapi</code>)<br>
+                                <strong>Backend Service:</strong> Python 3.10+ with Flask 3.1, Werkzeug, and subprocess isolation<br>
+                                <strong>Frontend Architecture:</strong> Pure Vanilla HTML5, custom CSS3, Vanilla JS, and HTML5 Canvas API<br>
+                                <strong>Measurement Standard:</strong> Windows <code>QueryPerformanceCounter</code> for sub-microsecond timing; <code>GetProcessMemoryInfo</code> for isolated peak working set metrics.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/charts.js"></script>
+    <script src="/static/js/solver.js"></script>
+    <script src="/static/js/benchmark.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
