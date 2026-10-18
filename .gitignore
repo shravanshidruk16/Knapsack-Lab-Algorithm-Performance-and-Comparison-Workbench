@@ -1,0 +1,60 @@
+# Python Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+ENVDIR/
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# Testing & Coverage Artifacts
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# Compiled C++ Executables & Object Files
+*.exe
+*.o
+*.obj
+*.out
+*.app
+algorithms/knapsack_runner
+algorithms/knapsack_runner.exe
+algorithms/*.exe
+test_runner.exe
+
+# Local Environment & Secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Temporary Logs & Runtime Outputs
+*.log
+reports/*.json
+reports/*.csv
+scratch/
+
+# Operating System & Editor Artifacts
+.DS_Store
+Thumbs.db
+ehthumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.bak
+
+# Ensure documentation screenshots are tracked
+!output_images/
+!output_images/*
